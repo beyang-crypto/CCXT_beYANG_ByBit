@@ -4,25 +4,18 @@ import (
 	"log"
 	"time"
 
-	bybitSpotV3 "github.com/TestingAccMar/CCXT_beYANG_ByBit/bybit/spot/v3"
+	bybitRest "github.com/TestingAccMar/CCXT_beYANG_ByBit/bybit/spot/v3/rest"
+	bybitWS "github.com/TestingAccMar/CCXT_beYANG_ByBit/bybit/spot/v3/ws"
 )
 
 func main() {
-	cfg := &bybitSpotV3.Configuration{
-		Addr:      bybitSpotV3.HostMainnetPublicTopics,
+	cfg := &bybitRest.Configuration{
+		Addr:      bybitRest.RestMainnetBybit,
 		ApiKey:    "",
 		SecretKey: "",
 		DebugMode: true,
 	}
-	b := bybitSpotV3.New(cfg)
-	b.Start()
-
-	pair := b.GetPair("BTC", "USDT")
-	b.Subscribe(bybitSpotV3.ChannelBookTicker, pair)
-
-	b.On(bybitSpotV3.ChannelBookTicker, handleBookTicker)
-	b.On(bybitSpotV3.ChannelBookTicker, handleBestBidPrice)
-
+	b := bybitRest.New(cfg)
 	go func() {
 		time.Sleep(5 * time.Second)
 		balance := b.GetBalance()
@@ -36,10 +29,10 @@ func main() {
 	<-forever
 }
 
-func handleBookTicker(symbol string, data bybitSpotV3.BookTicker) {
+func handleBookTicker(symbol string, data bybitWS.BookTicker) {
 	log.Printf("Bybit BookTicker  %s: %v", symbol, data)
 }
 
-func handleBestBidPrice(symbol string, data bybitSpotV3.BookTicker) {
+func handleBestBidPrice(symbol string, data bybitWS.BookTicker) {
 	log.Printf("Bybit BookTicker  %s: BestBidPrice : %s", symbol, data.Data.Bp)
 }
