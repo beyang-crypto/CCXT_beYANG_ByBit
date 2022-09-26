@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	bybitSpotV3 "github.com/testingaccmar/ccxt_beyang_bybit/bybit/spot/v3"
+	bybitSpotV3 "github.com/TestingAccMar/CCXT_beYANG_ByBit/bybit/spot/v3"
 )
 
 func main() {

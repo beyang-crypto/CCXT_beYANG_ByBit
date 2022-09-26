@@ -1,4 +1,4 @@
-module github.com/testingaccmar/ccxt_beyang_bybit
+module github.com/TestingAccMar/CCXT_beYANG_ByBit
 
 go 1.18
 
