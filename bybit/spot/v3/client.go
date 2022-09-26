@@ -304,20 +304,8 @@ func (b *ByBitWS) messageHandler(data []byte) {
 		log.Fatal()
 	default:
 		opJSON, _ := jsonparser.GetString(data, "op")
-		if opJSON != "subscribe" {
-			log.Printf(`
-				{
-					"Status" : "INFO",
-					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
-					"File": "client.go",
-					"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
-					"Exchange" : "Bybit",
-					"Comment" : "не известный ответ от сервера"
-					"Message" : %s
-				}`, string(data))
-			log.Fatal()
-		} else {
-
+		switch opJSON {
+		case "subscribe":
 			successJSON, _ := jsonparser.GetBoolean(data, "success")
 			if !successJSON {
 				log.Printf(`
@@ -332,6 +320,19 @@ func (b *ByBitWS) messageHandler(data []byte) {
 					}`, string(data))
 				log.Fatal()
 			}
+		case "pong":
+		default:
+			log.Printf(`
+				{
+					"Status" : "INFO",
+					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+					"File": "client.go",
+					"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
+					"Exchange" : "Bybit",
+					"Comment" : "не известный ответ от сервера"
+					"Message" : %s
+				}`, string(data))
+			log.Fatal()
 		}
 	}
 }
