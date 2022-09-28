@@ -60,7 +60,26 @@ func New(config *Configuration) *ByBitWS {
 	return b
 }
 
-func (b *ByBitWS) Subscribe(channel string, coin string) {
+func (b *ByBitWS) Subscribe(args ...string) {
+	switch len(args) {
+	case 2:
+		b.Subscribe2(args[0], args[1])
+	default:
+		log.Printf(`
+			{
+				"Status" : "Error",
+				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
+				"File": "client.go",
+				"Functions" : "(b *ByBitWS) Subscribe(args ...string)",
+				"Exchange" : "Bybit",
+				"Data" : [%v],
+				"Comment" : "Слишком много аргументов"
+			}`, args)
+		log.Fatal()
+	}
+}
+
+func (b *ByBitWS) Subscribe2(channel string, coin string) {
 	cmd := Cmd{
 		Op:   "subscribe",
 		Args: []interface{}{channel + coin},
@@ -79,7 +98,7 @@ func (b *ByBitWS) SendCmd(cmd Cmd) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws/ws",
 				"File": "client.go",
 				"Functions" : "(b *ByBitWS) sendCmd(cmd Cmd)",
 				"Function where err" : "json.Marshal",
@@ -103,7 +122,7 @@ func (b *ByBitWS) Send(msg string) (err error) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws/ws",
 						"File": "client.go",
 						"Functions" : "(b *ByBitWS) Send(msg string) (err error)",
 						"Function where err" : "b.conn.WriteMessage",
@@ -164,7 +183,7 @@ func (b *ByBitWS) Start() error {
 					log.Printf(`
 						{
 							"Status" : "Error",
-							"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+							"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 							"File": "client.go",
 							"Functions" : "(b *ByBitWS) Start() error",
 							"Function where err" : "b.conn.ReadMessage",
@@ -208,7 +227,7 @@ func (b *ByBitWS) connect() {
 	if err != nil {
 		log.Printf(`{
 						"Status" : "Error",
-						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 						"File": "client.go",
 						"Functions" : "(b *ByBitWS) connect()",
 						"Function where err" : "websocket.DefaultDialer.Dial",
@@ -267,7 +286,7 @@ func (b *ByBitWS) messageHandler(data []byte) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 						"File": "client.go",
 						"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
 						"Function where err" : "json.Unmarshal",
@@ -282,7 +301,7 @@ func (b *ByBitWS) messageHandler(data []byte) {
 			log.Printf(`
 				{
 					"Status" : "INFO",
-					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 					"File": "client.go",
 					"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
 					"Exchange" : "Bybit",
@@ -295,7 +314,7 @@ func (b *ByBitWS) messageHandler(data []byte) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 				"File": "client.go",
 				"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
 				"Exchange" : "Bybit",
@@ -311,7 +330,7 @@ func (b *ByBitWS) messageHandler(data []byte) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+						"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 						"File": "client.go",
 						"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
 						"Exchange" : "Bybit",
@@ -325,7 +344,7 @@ func (b *ByBitWS) messageHandler(data []byte) {
 			log.Printf(`
 				{
 					"Status" : "INFO",
-					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3",
+					"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
 					"File": "client.go",
 					"Functions" : "(b *ByBitWS) messageHandler(data []byte)",
 					"Exchange" : "Bybit",
