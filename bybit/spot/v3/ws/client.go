@@ -47,7 +47,7 @@ type ByBitWS struct {
 }
 
 func (b *ByBitWS) GetPair(coin1 string, coin2 string) string {
-	return coin1 + coin2
+	return strings.ToUpper(coin1 + coin2)
 }
 
 func New(config *Configuration) *ByBitWS {
@@ -60,29 +60,14 @@ func New(config *Configuration) *ByBitWS {
 	return b
 }
 
-func (b *ByBitWS) Subscribe(args ...string) {
-	switch len(args) {
-	case 2:
-		b.Subscribe2(args[0], args[1])
-	default:
-		log.Printf(`
-			{
-				"Status" : "Error",
-				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/ws",
-				"File": "client.go",
-				"Functions" : "(b *ByBitWS) Subscribe(args ...string)",
-				"Exchange" : "Bybit",
-				"Data" : [%v],
-				"Comment" : "Слишком много аргументов"
-			}`, args)
-		log.Fatal()
+func (b *ByBitWS) Subscribe(channel string, coins []string) {
+	var args []interface{}
+	for _, value := range coins {
+		args = append(args, channel+value)
 	}
-}
-
-func (b *ByBitWS) Subscribe2(channel string, coin string) {
 	cmd := Cmd{
 		Op:   "subscribe",
-		Args: []interface{}{channel + coin},
+		Args: args,
 	}
 	b.subscribeCmds = append(b.subscribeCmds, cmd)
 	if b.cfg.DebugMode {
