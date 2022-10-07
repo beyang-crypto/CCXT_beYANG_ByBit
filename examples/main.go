@@ -11,7 +11,7 @@ func main() {
 		Addr:      bybitWS.HostMainnetPublicTopics,
 		ApiKey:    "",
 		SecretKey: "",
-		DebugMode: true,
+		DebugMode: false,
 	}
 	b := bybitWS.New(cfg)
 	b.Start()
@@ -34,6 +34,7 @@ func main() {
 
 	b.Subscribe(bybitWS.ChannelBookTicker, []string{pair1, pair2, pair3, pair4, pair5, pair6, pair7, pair8, pair9, pair10})
 	b.Subscribe(bybitWS.ChannelBookTicker, []string{pair11, pair12, pair13, pair14, pair15})
+	b.On(bybitWS.ChannelBookTicker, handleBestBidPrice)
 	// cfg := &bybitRest.Configuration{
 	// 	Addr:      bybitRest.RestMainnetBybit,
 	// 	ApiKey:    "",
