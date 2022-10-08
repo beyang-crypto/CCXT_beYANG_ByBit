@@ -52,7 +52,6 @@ func (b *ByBitWS) GetPair(args ...string) string {
 }
 
 func New(config *Configuration) *ByBitWS {
-
 	// 	потом тут добавятся различные другие настройки
 	b := &ByBitWS{
 		cfg:     config,
@@ -72,7 +71,7 @@ func (b *ByBitWS) Subscribe(channel string, coins []string) {
 	}
 	b.subscribeCmds = append(b.subscribeCmds, cmd)
 	if b.cfg.DebugMode {
-		log.Printf("Создание json сообщения на подписку part 1")
+		log.Printf("STATUS: DEBUG\tСоздание json сообщения на подписку part 1")
 	}
 	b.SendCmd(cmd)
 }
@@ -95,7 +94,7 @@ func (b *ByBitWS) SendCmd(cmd Cmd) {
 		log.Fatal()
 	}
 	if b.cfg.DebugMode {
-		log.Printf("Создание json сообщения на подписку part 2")
+		log.Printf("STATUS: DEBUG\tСоздание json сообщения на подписку part 2")
 	}
 	b.Send(string(data))
 }
@@ -123,7 +122,7 @@ func (b *ByBitWS) Send(msg string) (err error) {
 		}
 	}()
 	if b.cfg.DebugMode {
-		log.Printf("Отправка сообщения на сервер. текст сообщения:%s", msg)
+		log.Printf("STATUS: DEBUG\tОтправка сообщения на сервер. текст сообщения:%s", msg)
 	}
 
 	err = b.conn.WriteMessage(websocket.TextMessage, []byte(msg))
@@ -133,7 +132,7 @@ func (b *ByBitWS) Send(msg string) (err error) {
 // подключение к серверу и постоянное чтение приходящих ответов
 func (b *ByBitWS) Start() error {
 	if b.cfg.DebugMode {
-		log.Printf("Начало подключения к серверу")
+		log.Printf("STATUS: DEBUG\tНачало подключения к серверу")
 	}
 	b.connect()
 
@@ -251,7 +250,7 @@ func (b *ByBitWS) ping() {
 func (b *ByBitWS) messageHandler(data []byte) {
 
 	if b.cfg.DebugMode {
-		log.Printf("BybitWs %v", string(data))
+		log.Printf("STATUS: DEBUG\tBybitWs %v", string(data))
 	}
 
 	//	в ошибке нет необходимости, т.к. она выходит каждый раз, когда не найдет элемент
