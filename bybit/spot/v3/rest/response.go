@@ -24,7 +24,7 @@ type RetExtMapWalletBalance struct {
 type RetExtInfoWalletBalance struct {
 }
 
-func BybitToWalletBalance(data interface{}) WalletBalance {
-	bt, _ := data.(WalletBalance)
-	return bt
+func BybitToWalletBalance(data interface{}) (WalletBalance, bool) {
+	bt, ok := data.(WalletBalance)
+	return bt, ok
 }

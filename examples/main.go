@@ -11,7 +11,7 @@ func main() {
 		Addr:      bybitWS.HostMainnetPublicTopics,
 		ApiKey:    "",
 		SecretKey: "",
-		DebugMode: false,
+		DebugMode: true,
 	}
 	b := bybitWS.New(cfg)
 	b.Start()
@@ -55,10 +55,10 @@ func main() {
 	<-forever
 }
 
-func handleBookTicker(symbol string, data bybitWS.BookTicker) {
-	log.Printf("Bybit BookTicker  %s: %v", symbol, data)
+func handleBookTicker(name string, symbol string, data bybitWS.BookTicker) {
+	log.Printf("%s BookTicker  %s: %v", name, symbol, data)
 }
 
-func handleBestBidPrice(symbol string, data bybitWS.BookTicker) {
-	log.Printf("Bybit BookTicker  %s: BestBidPrice : %s", symbol, data.Data.Bp)
+func handleBestBidPrice(name string, symbol string, data bybitWS.BookTicker) {
+	log.Printf("%s BookTicker  %s: BestBidPrice : %s", name, symbol, data.Data.Bp)
 }

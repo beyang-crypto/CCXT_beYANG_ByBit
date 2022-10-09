@@ -69,6 +69,10 @@ func (ex *ByBitRest) GetBalance() interface{} {
 		log.Fatalln(err)
 	}
 
+	if ex.cfg.DebugMode {
+		log.Printf("STATUS: DEBUG\tEXCHANGE: Bybit\tAPI: Rest\tBybitWalletBalance %v", string(data))
+	}
+
 	// {
 	// 	"ret_code": 0,
 	// 	"ret_msg": "",
@@ -94,7 +98,7 @@ func (ex *ByBitRest) GetBalance() interface{} {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_BEYANG_BYBIT/spot/v3/rest",
+				"Path to file" : "CCXT_beYANG_Bybit/spot/v3/rest",
 				"File": "client.go",
 				"Functions" : "(ex *ByBitRest) GetBalance() WalletBalance",
 				"Function where err" : "json.Unmarshal",
